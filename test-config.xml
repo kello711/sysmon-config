@@ -1,0 +1,69 @@
+<?<?xml version="1.0"?>
+<Sysmon schemaversion="3.2">
+    <!-- Capture SHA256 and MD5 Hashes -->
+    <HashAlgorithms>SHA256,MD5</HashAlgorithms>
+    <EventFiltering>
+        <!-- LOG NONE OF THESE -->
+        <ProcessTerminate onmatch="include"/>
+        <FileCreateTime onmatch="include"/>
+        <RawAccessRead onmatch="include"/>
+        <FileCreateStreamHash onmatch="include"/>
+        <CreateRemoteThread onmatch="include"/>
+
+        <!-- LOG ALL OF THESE -->
+        <ProcessCreate onmatch="exclude"/>
+
+        <!-- LOG ALL EXCEPT IF -->
+        <DriverLoad onmatch="exclude">
+            <Signature condition="is">Microsoft Windows</Signature>
+        </DriverLoad>
+
+        <!-- Log all images except if it's Microsoft or Windows signed -->
+        <ImageLoad onmatch="exclude">
+            <Signature condition="is">Microsoft Windows</Signature>
+            <Signature condition="is">Microsoft Corporation</Signature>
+        </ImageLoad>
+
+        <!-- Log all initiated network connections except if -->
+        <NetworkConnect onmatch="exclude">
+            <Image condition="contains">chrome.exe</Image>
+            <Image condition="contains">iexplore.exe</Image>
+            <Image condition="contains">firefox.exe</Image>
+            <Image condition="contains">outlook.exe</Image>
+            <Image condition="contains">Skype.exe</Image>
+            <Image condition="contains">lync.exe</Image>
+            <Image condition="contains">GoogleUpdate.exe</Image>
+            <Image condition="contains">torrent.exe</Image>
+        </NetworkConnect>
+
+        <!-- Log all registry events except the noisy ones -->
+        <RegistryEvent onmatch="exclude">
+            <Image condition="excludes">mmc.exe</Image>
+            <Image condition="excludes">Sysmon.exe</Image>
+        </RegistryEvent>
+
+        <!-- LOG ONLY IF -->
+        <!-- Only capture access to lsass and winlogon -->
+        <ProcessAccess onmatch="include">
+            <TargetImage condition="is">C:\Windows\system32\lsass.exe</TargetImage>
+            <TargetImage condition="is">C:\Windows\system32\winlogon.exe</TargetImage>
+        </ProcessAccess>
+
+        <!-- Only capture network connections for ports 80 and 443 -->
+        <NetworkConnect onmatch="include">
+            <DestinationPort>80</DestinationPort>
+            <DestinationPort>443</DestinationPort>
+        </NetworkConnect>
+
+        <!-- Log file creates for only temp, system, and startup directories -->
+        <FileCreate onmatch="include">
+            <TargetFileName condition="contains">\System32\</TargetFileName>
+            <TargetFileName condition="contains">\Syswow64\</TargetFileName>
+            <TargetFileName condition="contains">\Temporary\</TargetFileName>
+            <TargetFileName condition="contains">\Startup\</TargetFileName>
+            <TargetFileName condition="contains">\Temp\</TargetFileName>
+            <TargetFileName condition="contains">\tmp\</TargetFileName>
+        </FileCreate>
+
+    </EventFiltering>
+</Sysmon>

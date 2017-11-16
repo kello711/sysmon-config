@@ -1,0 +1,5 @@
+Download sysmon.exe and sysmon config files to target host
+Execute at elevated cmd:
+    C:\>sysmon -accepteula -i sysmonconfig-export.xml
+
+Download Winlogbeat
