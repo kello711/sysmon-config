@@ -285,8 +285,8 @@
 		<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
 		<ProcessAccess onmatch="include">
 		<!--COMMENT:	Monitor for processes accessing other process' memory. This can be valuable, but can cause a huge number of events.-->
-			<TargetImage condition="is">C:\Windows\System32\lsass.exe</TargetImage> <!-- Kelly Lehman -->
-			<TargetImage condition="is">C:\Windows\System32\winlogon.exe</TargetImage> <!-- Kelly Lehman -->
+			<TargetImage condition="is">C:\Windows\System32\lsass.exe</TargetImage> <!--Kelly Lehman-->
+			<TargetImage condition="is">C:\Windows\System32\winlogon.exe</TargetImage> <!--Kelly Lehman-->
 		</ProcessAccess>
 
 	<!--SYSMON EVENT ID 11 : FILE CREATED-->
@@ -444,11 +444,11 @@
 			<TargetObject condition="end with">\FriendlyName</TargetObject> <!--Microsoft:Windows: New devices connected and remembered-->
 			<TargetObject condition="is">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\InProgress\(Default)</TargetObject> <!--Microsoft:Windows: See when WindowsInstaller is engaged-->
 
-			<!-- Based on Matt Graeber Subverting Windows Trust whitepaper - Kelly Lehman -->
-			<TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\OID</TargetObject> <!-- Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
-			<TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID</TargetObject> <!-- Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
-			<TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust</TargetObject> <!-- Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
-			<TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\Trust</TargetObject> <!-- Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
+			<!-- Based on Matt Graeber Subverting Windows Trust whitepaper - Kelly Lehman-->
+			<TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\OID</TargetObject> <!--Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
+			<TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID</TargetObject> <!--Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
+			<TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust</TargetObject> <!--Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
+			<TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\Trust</TargetObject> <!--Subverting Windows Trust:  https://specterops.io/assets/resources/SpecterOps_Subverting_Trust_in_Windows.pdf-->
 
 		</RegistryEvent>
 		<RegistryEvent onmatch="exclude">
