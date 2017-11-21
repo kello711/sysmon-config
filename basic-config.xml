@@ -14,6 +14,7 @@
 		<!--SYSMON EVENT ID 2 : FILE CREATION TIME RETROACTIVELY CHANGED IN THE FILESYSTEM-->
 			<FileCreateTime onmatch="exclude">
 				<!-- Exclude known processes -->
+				<Image condition="is">C:\Windows\System32\spoolsv.exe</Image>
 			</FileCreateTime>
 		<!--SYSMON EVENT ID 3 : NETWORK CONNECTION INITIATED-->
 			<NetworkConnect onmatch="exclude">
@@ -68,7 +69,8 @@
 			</ProcessAccess>
 			<ProcessAccess onmatch="exclude">
 				<!-- Exclude legitimate processes -->
-				<SourceImage condition="is">C:\Windows\System32\Taskmgr.exe</SourceImage>
+				<SourceImage condition="is">C:\Windows\System32\Taskmgr.exe</SourceImage> <!-- Windows Task Manager -->
+				<SourceImage condition="is">C:\Program Files\VMware\VMware Tools\vmtoolsd.exe</SourceImage> <!-- VMWare Tools -->
 			</ProcessAccess>
 		<!--SYSMON EVENT ID 11 : FILE CREATED-->
 			<FileCreate onmatch="include">
